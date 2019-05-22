@@ -14,17 +14,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.ManyToAny;
 import org.hibernate.validator.constraints.NotBlank;
 import br.com.idsolucoesdigitais.brewer.model.enuns.Origem;
 import br.com.idsolucoesdigitais.brewer.model.enuns.Sabor;
 
 @Entity
 @Table(name = "cerveja")
-public class Cerveja implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class Cerveja {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,8 +35,6 @@ public class Cerveja implements Serializable {
 	@Size(min = 1, max = 50, message = "O tamanho da descrição deve estar entre 1 e 50")
 	private String descricao;
 
-	private String foto;
-
 	private BigDecimal valor;
 
 	@Column(name = "teor_alcoolico")
@@ -51,10 +45,11 @@ public class Cerveja implements Serializable {
 	@Column(name = "quantidade_estoque")
 	private Integer quantidadeEstoque;
 
-	private Sabor sabor;
-
 	@Enumerated(EnumType.STRING)
 	private Origem origem;
+
+	@Enumerated(EnumType.STRING)
+	private Sabor sabor;
 
 	@ManyToOne
 	@JoinColumn(name = "codigo_estilo")
@@ -84,12 +79,12 @@ public class Cerveja implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public String getFoto() {
-		return foto;
+	public Long getCodigo() {
+		return codigo;
 	}
 
-	public void setFoto(String foto) {
-		this.foto = foto;
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
 	}
 
 	public BigDecimal getValor() {
@@ -124,14 +119,6 @@ public class Cerveja implements Serializable {
 		this.quantidadeEstoque = quantidadeEstoque;
 	}
 
-	public Sabor getSabor() {
-		return sabor;
-	}
-
-	public void setSabor(Sabor sabor) {
-		this.sabor = sabor;
-	}
-
 	public Origem getOrigem() {
 		return origem;
 	}
@@ -140,12 +127,12 @@ public class Cerveja implements Serializable {
 		this.origem = origem;
 	}
 
-	public Long getCodigo() {
-		return codigo;
+	public Sabor getSabor() {
+		return sabor;
 	}
 
-	public void setCodigo(Long codigo) {
-		this.codigo = codigo;
+	public void setSabor(Sabor sabor) {
+		this.sabor = sabor;
 	}
 
 	public Estilo getEstilo() {
