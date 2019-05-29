@@ -1,7 +1,6 @@
 package br.com.idsolucoesdigitais.brewer.controllers;
 
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,18 +11,20 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.idsolucoesdigitais.brewer.model.Cerveja;
-import br.com.idsolucoesdigitais.brewer.model.enuns.*;
-import br.com.idsolucoesdigitais.repository.CervejaRepository;
+import br.com.idsolucoesdigitais.brewer.model.enuns.Origem;
+import br.com.idsolucoesdigitais.brewer.model.enuns.Sabor;
+import br.com.idsolucoesdigitais.brewer.service.CervejaService;
 import br.com.idsolucoesdigitais.repository.EstiloRepository;
+
 
 @Controller
 public class CervejasController {
-	
+
 	@Autowired
 	private EstiloRepository estiloRepository;
-	
+
 	@Autowired
-	private CervejaRepository cervejaRepository;
+	private CervejaService cervejaService;
 
 	@RequestMapping("/cervejas/novo")
 	public ModelAndView novo(Cerveja cerveja) {
@@ -33,17 +34,17 @@ public class CervejasController {
 		mv.addObject("origens", Origem.values());
 		return mv;
 	}
-	
+
 	@RequestMapping(value = "/cervejas/novo", method = RequestMethod.POST)
-	public ModelAndView cadastrar(@Valid Cerveja cerveja, BindingResult result, Model model, RedirectAttributes attributes) {
+	public ModelAndView cadastrar(@Valid Cerveja cerveja, BindingResult result, Model model,
+			RedirectAttributes attributes) {
 		if (result.hasErrors()) {
 			return novo(cerveja);
 		}
-		
-		cervejaRepository.save(cerveja);
+
+		cervejaService.salvar(cerveja);
 		attributes.addFlashAttribute("mensagem", "Cerveja salva com sucesso!");
 		return new ModelAndView("redirect:/cervejas/novo");
 	}
-	
-	
+
 }
